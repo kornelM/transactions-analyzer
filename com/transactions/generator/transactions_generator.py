@@ -28,13 +28,14 @@ def enhanced_generate_random_transaction():
     title = enhanced_generate_random_title()
     date = generate_random_date()
     time = enhanced_generate_random_time(title)
-    account_number = generate_account_number3(title)
+    account_number_obj = generate_account_number3(title)
     currency = enhanced_generate_random_currency(title)
     amount = enhanced_generate_random_amount(title)
     transaction_type = enhanced_generate_random_transaction_type(title)
 
     return {
-        'account_number': account_number,
+        'account_type': account_number_obj['account_type'],
+        'account_number': account_number_obj['account_number'],
         'transactionDate': date,
         'transactionHour': time,
         'currency': currency,

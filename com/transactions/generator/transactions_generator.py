@@ -2,6 +2,8 @@ import random
 from datetime import datetime, timedelta
 
 import data.writer as wt
+from com.transactions.generator.ProductLevel import ProductLevel
+from com.transactions.generator.accountnumber.account_generator import generate_account_number3
 from com.transactions.properties import NUMBER_OF_GENERATED_TRANSACTIONS
 
 
@@ -26,11 +28,13 @@ def enhanced_generate_random_transaction():
     title = enhanced_generate_random_title()
     date = generate_random_date()
     time = enhanced_generate_random_time(title)
+    account_number = generate_account_number3(title)
     currency = enhanced_generate_random_currency(title)
     amount = enhanced_generate_random_amount(title)
     transaction_type = enhanced_generate_random_transaction_type(title)
 
     return {
+        'account_number': account_number,
         'transactionDate': date,
         'transactionHour': time,
         'currency': currency,
@@ -53,7 +57,7 @@ def enhanced_generate_random_time(title):
     elif 'Pro' in title:
         return f"{random.randint(10, 20):02d}:{random.randint(0, 59):02d}"
     else:
-        f"{random.randint(20, 23):02d}:{random.randint(0, 59):02d}"
+        return f"{random.randint(20, 23):02d}:{random.randint(0, 59):02d}"
 
 
 def generate_random_time():
@@ -106,12 +110,12 @@ def enhanced_generate_random_transaction_type(title):
 
 
 def generate_random_title():
-    return f"{random.choice(accessories)} {random.choice(['Standard', 'Pro', 'Ultra'])}"
+    return f"{random.choice(accessories)} {random.choice(ProductLevel.levels())}"
 
 
 def enhanced_generate_random_title():
     accessory_name = random.choice(list(accessories_dict.keys()))
-    title = f"{accessory_name} {random.choice(['Standard', 'Pro', 'Ultra'])}"
+    title = f"{accessory_name} {random.choice(ProductLevel.levels())}"
     return title
 
 
